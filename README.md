@@ -10,40 +10,64 @@
 
 ## 先决条件
 
-- C 编译器（gcc / clang 等）
-- make 或 CMake（视项目提供的构建脚本而定）
+- C++ 编译器（g++）
+- make 构建工具
+- OpenSSL 库（用于SSL/TLS连接）
 - 网络访问权限
-- 推荐：cJSON、libcurl 等库（如果仓库使用这些库）
+- Windows平台额外需要：Winsock2库
+
+### 安装依赖
+
+**Ubuntu/Debian系统：**
+```bash
+sudo apt-get update
+sudo apt-get install build-essential libssl-dev
+```
+
+**CentOS/RHEL系统：**
+```bash
+sudo yum install gcc-c++ openssl-devel
+```
+
+**Windows系统（使用MinGW或MSYS2）：**
+```bash
+sudo pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-openssl
+```
 
 ## 快速开始
 
-1. 克隆仓库
+1. 克隆仓库或下载源代码
 
    ```bash
    git clone https://github.com/ycm50/ai_api_c.git
    cd ai_api_c
    ```
 
-2. 设置 API Key（示例使用环境变量）：
+2. 修改代码中的API密钥
 
-   ```bash
-   export AI_API_KEY="your_api_key_here"
+   在`ai-api-c_posix.cpp`和`ai-api-c_windows.cpp`文件中，找到并修改以下行：
+   ```cpp
+   static const char *API_KEY = "sk-xxxxx";  // 替换为您的实际API密钥
    ```
 
-3. 编译（如果仓库提供 Makefile）：
+3. 编译项目
 
+   项目现在使用统一的Makefile，会根据当前操作系统自动选择正确的源文件和编译选项：
    ```bash
    make
    ```
 
-   或者使用 gcc 手动编译示例：
+4. 运行程序
 
+   **POSIX平台：**
    ```bash
-   gcc -o example examples/example.c -lcurl -lcjson
-   ./example
+   ./ai-api
    ```
 
-   注意：请根据仓库中的实际源文件与依赖调整编译命令。
+   **Windows平台：**
+   ```bash
+   ./ai-api.exe
+   ```
 
 ## 使用示例（伪代码）
 
